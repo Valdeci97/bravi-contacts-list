@@ -8,10 +8,22 @@ datasource db {
 }
 
 model User {
-  id       String @id @default(uuid())
+  id       String    @id @default(uuid())
   name     String
-  email    String @unique
+  email    String    @unique
   password String
+  contacts Contact[]
 
   @@map("users")
+}
+
+model Contact {
+  id       String   @id @default(uuid())
+  phone    String?
+  whatsapp Boolean? @default(false)
+  email    String?
+  user     User     @relation(fields: [user_id], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user_id  String
+
+  @@map("contacts")
 }
