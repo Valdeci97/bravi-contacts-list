@@ -12,7 +12,7 @@ export default class App {
   }
 
   public start(PORT: number | string = 3001): void {
-    this.app.listen(() => console.log('Server runing at port', PORT));
+    this.app.listen(PORT, () => console.log('Server runing at port', PORT));
   }
 
   public addRouter(router: Router): void {
