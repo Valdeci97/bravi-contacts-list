@@ -3,6 +3,7 @@ import CustomRouter from './routes';
 
 import UserController from './controllers/UserController';
 import ContactController from './controllers/ContactController';
+import LoginController from './controllers/LoginController';
 
 import UserMiddleware from './middlewares/UserMiddleware';
 import GuidMiddleware from './middlewares/GuidMiddleware';
@@ -91,10 +92,20 @@ contactRouter.addDeleteRoute(
   guidMiddleware.validateGuid
 );
 
+const loginController = new LoginController();
+const loginRouter = new CustomRouter();
+
+loginRouter.addPostRoute(
+  '/login',
+  loginController.login,
+  userMiddleware.validateEmail
+);
+
 const server = new App();
 
 server.addRouter(userRouter.router);
 server.addRouter(contactRouter.router);
+server.addRouter(loginRouter.router);
 
 server.addErrorMiddleware();
 
