@@ -6,6 +6,7 @@ import ContactController from './controllers/ContactController';
 
 import UserMiddleware from './middlewares/UserMiddleware';
 import GuidMiddleware from './middlewares/GuidMiddleware';
+import ContactMiddleware from './middlewares/ContactMiddleware';
 
 const guidMiddleware = new GuidMiddleware();
 
@@ -40,17 +41,35 @@ userRouter.addDeleteRoute(
   guidMiddleware.validateGuid
 );
 
+const contactMiddleware = new ContactMiddleware();
 const contactController = new ContactController();
 const contactRouter = new CustomRouter();
 
-contactRouter.addGetRoute(contactController.route, contactController.read);
+contactRouter.addGetRoute(
+  contactController.route,
+  contactController.read,
+  guidMiddleware.validateBodyGuid
+);
 contactRouter.addGetRoute(
   `${contactController.route}/:id`,
   contactController.readOne,
   guidMiddleware.validateGuid
 );
-contactRouter.addPostRoute(contactController.route, contactController.create);
-contactRouter.addPutRoute(contactController.route, contactController.update);
+contactRouter.addPostRoute(
+  contactController.route,
+  contactController.create,
+  contactMiddleware.validatePhone,
+  contactMiddleware.validateWhatsapp,
+  contactMiddleware.validateEmail,
+  guidMiddleware.validateBodyGuid
+);
+contactRouter.addPutRoute(
+  contactController.route,
+  contactController.update,
+  contactMiddleware.validatePhone,
+  contactMiddleware.validateWhatsapp,
+  contactMiddleware.validateEmail
+);
 contactRouter.addDeleteRoute(
   `${contactController.route}/:id`,
   contactController.delete,
