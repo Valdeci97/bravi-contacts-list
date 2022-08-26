@@ -1,17 +1,30 @@
 import App from './app';
 import CustomRouter from './routes';
+
 import UserController from './controllers/UserController';
 import ContactController from './controllers/ContactController';
 
+import UserMiddleware from './middlewares/UserMiddleware';
+
+const userMiddleware = new UserMiddleware();
 const userController = new UserController();
 const userRouter = new CustomRouter();
 
 userRouter.addGetRoute(userController.route, userController.read);
 userRouter.addGetRoute(`${userController.route}/:id`, userController.readOne);
-userRouter.addPostRoute(userController.route, userController.create);
+userRouter.addPostRoute(
+  userController.route,
+  userController.create,
+  userMiddleware.validateName,
+  userMiddleware.validateEmail,
+  userMiddleware.validatePassword
+);
 userRouter.addPatchRoute(
   `${userController.route}/:id/update-profile`,
-  userController.update
+  userController.update,
+  userMiddleware.validateName,
+  userMiddleware.validateOptionalEmail,
+  userMiddleware.validateOptionalPassword
 );
 userRouter.addDeleteRoute(`${userController.route}/:id`, userController.delete);
 
