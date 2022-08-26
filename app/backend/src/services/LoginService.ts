@@ -14,7 +14,9 @@ export default class LoginService {
 
   public async login({ email, password }: User): Promise<UserWithToken> {
     const user = await this.findByEmail(email);
-    if (!user) throw new HttpException(404, 'User not found');
+    if (!user) {
+      throw new HttpException(400, 'Incorrect email or password');
+    }
     const isSamePassword = await compare(password, user.password);
     if (!isSamePassword) {
       throw new HttpException(400, 'Incorrect email or password');
