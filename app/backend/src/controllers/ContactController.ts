@@ -23,8 +23,9 @@ export default class ContactController {
     next: NextFunction
   ): Promise<Response | void> => {
     const { body } = req;
+    const { id } = req.user;
     try {
-      const contact = await this.service.create(body, '');
+      const contact = await this.service.create(body, id);
       return res.status(201).json({ contact });
     } catch (err) {
       if (err instanceof HttpException) {
@@ -39,7 +40,7 @@ export default class ContactController {
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    const { id } = req.body;
+    const { id } = req.user;
     try {
       const contacts = await this.service.list(id);
       return res.status(200).json(contacts);
