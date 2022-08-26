@@ -31,7 +31,6 @@ userRouter.addGetRoute(
 userRouter.addPostRoute(
   userController.route,
   userController.create,
-  tokenMiddleware.validate,
   userMiddleware.validateName,
   userMiddleware.validateEmail,
   userMiddleware.validatePassword
