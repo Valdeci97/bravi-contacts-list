@@ -28,6 +28,7 @@ export default abstract class Controller<T> {
       const obj = await this.service.list();
       return res.status(200).json(obj);
     } catch (err) {
+      console.log(err);
       next(new HttpException(500, 'Internal server error!'));
     }
   };

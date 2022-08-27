@@ -4,3 +4,4 @@ build
 /*js
 src/interfaces/*
 middlewares/
+tests/

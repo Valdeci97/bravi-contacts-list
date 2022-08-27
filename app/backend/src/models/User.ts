@@ -3,26 +3,22 @@ import { compare, hash } from 'bcryptjs';
 import database from '../database';
 import HttpException from '../utils/exceptions/HttpException';
 
-const USER_NOT_FOUND = 'User not found!';
 const EMAIL_IN_USE = 'Email already in use.';
 const EQUAL_PASSWORD = 'New password must be different than the old one.';
-const USER_ALREADY_EXISTS = 'User already exists';
+const USER_NOT_FOUND = 'User not found!';
 
 export default class UserModel {
-  private hashSalts = 10;
-
   private db: PrismaClient;
+
+  private hashSalts = 10;
 
   constructor(db: PrismaClient = database) {
     this.db = db;
   }
 
   public async create({ name, email, password }: User): Promise<User> {
-    const userExists = await this.findByEmail(email);
-    if (userExists) throw new HttpException(409, USER_ALREADY_EXISTS);
-    const hashed = await hash(password, this.hashSalts);
     const user = await this.db.user.create({
-      data: { name, email, password: hashed },
+      data: { name, email, password },
     });
     return user;
   }
@@ -34,18 +30,15 @@ export default class UserModel {
     return users;
   }
 
-  public async listById(id: string): Promise<Partial<User>> {
+  public async listById(id: string): Promise<Partial<User | null>> {
     const user = await this.db.user.findFirst({
       where: { id },
       select: { id: true, name: true, email: true },
     });
-    if (!user) throw new HttpException(404, USER_NOT_FOUND);
     return user;
   }
 
   public async update(obj: User): Promise<Partial<User>> {
-    const user = await this.listById(obj.id);
-    if (!user) throw new HttpException(404, USER_NOT_FOUND);
     const updatedUser = await this.updateUserInfo(obj);
     return {
       id: updatedUser.id,
@@ -55,8 +48,6 @@ export default class UserModel {
   }
 
   public async destroy(id: string): Promise<void> {
-    const user = await this.db.user.findFirst({ where: { id } });
-    if (!user) throw new HttpException(404, USER_NOT_FOUND);
     await this.db.user.delete({ where: { id } });
   }
 

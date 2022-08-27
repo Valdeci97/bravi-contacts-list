@@ -16,16 +16,16 @@ export default class GuidMiddleware {
     next();
   };
 
-  public validateBodyGuid = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Response | void => {
-    const { error } = uuidBodySchema.validate(req.user);
-    if (error) {
-      const [code, message] = error.message.split('/');
-      return res.status(Number(code)).json({ message });
-    }
-    next();
-  };
+  // public validateBodyGuid = (
+  //   req: Request,
+  //   res: Response,
+  //   next: NextFunction
+  // ): Response | void => {
+  //   const { error } = uuidBodySchema.validate(req.user);
+  //   if (error) {
+  //     const [code, message] = error.message.split('/');
+  //     return res.status(Number(code)).json({ message });
+  //   }
+  //   next();
+  // };
 }

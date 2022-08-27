@@ -10,7 +10,6 @@ const SECRET = process.env.SECRET || hashSecret(secret);
 
 const authConfig = {
   secret: SECRET,
-  expiresIn: '1d',
 };
 
 export default authConfig;

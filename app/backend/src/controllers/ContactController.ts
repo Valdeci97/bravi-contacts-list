@@ -18,14 +18,14 @@ export default class ContactController {
   }
 
   public create = async (
-    req: RequestWithBody<Contact>,
+    req: Request,
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
     const { body } = req;
-    const { id } = req.user;
+    const { userId } = req.body;
     try {
-      const contact = await this.service.create(body, id);
+      const contact = await this.service.create(body, userId);
       return res.status(201).json({ contact });
     } catch (err) {
       if (err instanceof HttpException) {
@@ -40,9 +40,9 @@ export default class ContactController {
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    const { id } = req.user;
+    const { userId } = req.body;
     try {
-      const contacts = await this.service.list(id);
+      const contacts = await this.service.list(userId);
       return res.status(200).json(contacts);
     } catch (err) {
       if (err instanceof HttpException) {

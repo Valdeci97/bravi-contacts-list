@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import { Contact } from '@prisma/client';
 import ContactModel from '../models/Contacts';
 
