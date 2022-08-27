@@ -1,56 +1,35 @@
 /* eslint-disable camelcase */
-import { Contact, PrismaClient } from '@prisma/client';
-import database from '../database';
-import HttpException from '../utils/exceptions/HttpException';
+import { Contact } from '@prisma/client';
+import ContactModel from '../models/Contacts';
 
 export default class ContactService {
-  private model: PrismaClient;
+  private model: ContactModel;
 
-  constructor(model: PrismaClient = database) {
+  constructor(model: ContactModel = new ContactModel()) {
     this.model = model;
   }
 
-  public async create(
-    { phone, whatsapp, email }: Contact,
-    id: string
-  ): Promise<Contact> {
-    const user = await this.model.user.findFirst({ where: { id } });
-    if (!user) throw new HttpException(404, 'User not found');
-    const contact = await this.model.contact.create({
-      data: { phone, whatsapp, email, user_id: id },
-    });
+  public async create(obj: Contact, id: string): Promise<Contact> {
+    const contact = await this.model.create(obj, id);
     return contact;
   }
 
   public async list(id: string): Promise<Contact[]> {
-    const contacts = await this.model.contact.findMany({
-      where: { user_id: id },
-    });
+    const contacts = await this.model.list(id);
     return contacts;
   }
 
   public async listById(id: string): Promise<Contact> {
-    const contact = await this.model.contact.findFirst({ where: { id } });
-    if (!contact) throw new HttpException(404, 'Contact not found');
+    const contact = await this.model.listById(id);
     return contact;
   }
 
-  public async update({
-    id,
-    phone,
-    whatsapp,
-    email,
-  }: Contact): Promise<Contact> {
-    const updatedContact = await this.model.contact.update({
-      where: { id },
-      data: { phone, whatsapp, email },
-    });
+  public async update(obj: Contact): Promise<Contact> {
+    const updatedContact = await this.model.update(obj);
     return updatedContact;
   }
 
   public async destroy(id: string): Promise<void> {
-    const contact = await this.model.contact.findFirst({ where: { id } });
-    if (!contact) throw new HttpException(404, 'Contact not found');
-    await this.model.contact.delete({ where: { id } });
+    await this.model.destroy(id);
   }
 }
