@@ -6,4 +6,16 @@
   font-size: 2rem;
   height: 10vh;
   bottom: 0;
+
+  @media screen and (max-width: 360px) {
+    font-size: 1.2rem;
+  }
+
+  @media screen and (min-width: 361px) and (max-width: 440px) {
+    font-size: 1.25rem;
+  }
+
+  @media screen and (min-width: 441px) and (max-width: 640px) {
+    font-size: 1.5rem;
+  }
 }
