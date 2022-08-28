@@ -1,5 +1,6 @@
 import { Contact } from '@prisma/client';
 import ContactModel from '../models/Contacts';
+import HttpException from '../utils/exceptions/HttpException';
 
 export default class ContactService {
   private model: ContactModel;
@@ -9,6 +10,8 @@ export default class ContactService {
   }
 
   public async create(obj: Contact, id: string): Promise<Contact> {
+    const user = await this.model.findUser(id);
+    if (!user) throw new HttpException(404, 'User not found');
     const contact = await this.model.create(obj, id);
     return contact;
   }
@@ -20,6 +23,7 @@ export default class ContactService {
 
   public async listById(id: string): Promise<Contact> {
     const contact = await this.model.listById(id);
+    if (!contact) throw new HttpException(404, 'Contact not found');
     return contact;
   }
 
@@ -29,6 +33,8 @@ export default class ContactService {
   }
 
   public async destroy(id: string): Promise<void> {
+    const contact = await this.model.listById(id);
+    if (!contact) throw new HttpException(404, 'Contact not found');
     await this.model.destroy(id);
   }
 }

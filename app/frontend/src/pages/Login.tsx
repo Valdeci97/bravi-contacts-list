@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import '../styles/login.scss';
 import { login } from '../utils/server';
+import { createUserKey } from '../utils/localStorage';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function Login() {
   const validateLogin = async (email: string, password: string) => {
     const user = await login(email, password);
     if (!user) return window.alert('Email ou senha incorretos!');
+    createUserKey(user.id);
     navigate('/contacts');
   }
   

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import '../styles/signup.scss';
@@ -8,6 +9,15 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+
+  const navigate = useNavigate();
+
+  const createUser = async (name: string, email: string, password: string) => {
+    const user = await create(name, email, password);
+    if (!user) return window.alert('Usuário já cadastrado!');
+    window.alert('Usuário criado com sucesso!');
+    navigate('/login');
+  }
 
   return (
     <>
@@ -52,7 +62,7 @@ export default function SignUp() {
           <button
             type="button"
             className="btn signup"
-            onClick={() => create(name, email, password)}
+            onClick={() => createUser(name, email, password)}
           >
             Cadastrar
           </button>

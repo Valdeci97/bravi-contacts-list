@@ -39,7 +39,7 @@ export default function ContactForm() {
           />
         </label>
         <button
-          className="btn create-contact"
+          className="create-contact"
           type="button"
         >
           Adicionar contato
