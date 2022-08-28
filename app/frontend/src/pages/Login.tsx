@@ -10,6 +10,12 @@ export default function Login() {
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const validateLogin = async (email: string, password: string) => {
+    const user = await login(email, password);
+    if (!user) return window.alert('Email ou senha incorretos!');
+    navigate('/contacts');
+  }
   
   return (
     <>
@@ -43,7 +49,7 @@ export default function Login() {
         </form>
         <button
           className="btn"
-          onClick={() => login(email, password)}
+          onClick={() => validateLogin(email, password)}
           type="button"
         >
           Entrar

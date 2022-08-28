@@ -1,0 +1,19 @@
+.create-contact-container {
+  align-items: center;
+  display: flex;
+  justify-content: space-evenly;
+  height: 10vh;
+}
+
+.contact-form {
+  label {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin: 0 1.5rem;
+  }
+}
+
+.create-contact {
+  font-size: 1rem;
+  width: 10rem;
+}
