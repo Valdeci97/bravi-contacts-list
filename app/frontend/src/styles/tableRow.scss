@@ -1,13 +1,13 @@
 .table-contact-container {
-  background-color: #555f6a;
   display: flex;
-  height: 63vh;
+  flex-direction: column;
+  // height: 5vh;
   justify-content: space-evenly;
   width: 100%;
 }
 
 .table-data-container {
-  font-size: 1.5rem;
+  font-size: 1rem;
   display: flex;
   justify-content: space-evenly;
   width: 100%;

@@ -1,6 +1,28 @@
+import { useState } from 'react';
+import { createContact } from '../utils/server';
+import { getUserKey } from '../utils/localStorage';
 import '../styles/contactForm.scss';
 
 export default function ContactForm() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [whatsapp, setWhatsapp] = useState('false');
+
+  const createUserContact = async (
+    name: string,
+    phone: string,
+    whatsapp: string,
+    email: string
+  ) => {
+    const wpp = whatsapp === 'false' ? false : true;
+    const userId = getUserKey();
+    if (!userId) return window.alert('Usuário não autenticado!');
+    const contact = await createContact(name, phone, wpp, email, userId);
+    if (!contact) return window.alert('Problema no banco de dados.');
+    return window.location.reload();
+  }
+
   return (
     <div className="create-contact-container">
       <form className="contact-form">
@@ -11,6 +33,7 @@ export default function ContactForm() {
             name="name"
             type="text"
             className="input"
+            onChange={({ target }) => setName(target.value)}
           />
         </label>
         <label htmlFor="phone">
@@ -18,15 +41,22 @@ export default function ContactForm() {
           <input
             id="phone"
             name="phone"
+            maxLength={ 11 }
             type="text"
             className="input"
+            onChange={({ target }) => setPhone(target.value)}
           />
         </label>
         <label htmlFor="whatsapp">
           Whatsapp:&nbsp;
-          <select className="input" name="whatsapp" id="whatsapp">
+          <select
+            onChange={({ target }) => setWhatsapp(target.value)}
+            className="input"
+            name="whatsapp"
+            id="whatsapp"
+          >
             <option value="true">sim</option>
-            <option value="false">não</option>
+            <option value="false" selected>não</option>
           </select>
         </label>
         <label htmlFor="email">
@@ -36,11 +66,13 @@ export default function ContactForm() {
             type="text"
             name="email"
             className="input"
+            onChange={({ target }) => setEmail(target.value)}
           />
         </label>
         <button
           className="create-contact"
           type="button"
+          onClick={() => createUserContact(name, phone, whatsapp, email)}
         >
           Adicionar contato
         </button>

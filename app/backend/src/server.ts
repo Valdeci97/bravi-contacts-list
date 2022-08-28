@@ -46,7 +46,10 @@ const contactMiddleware = new ContactMiddleware();
 const contactController = new ContactController();
 const contactRouter = new CustomRouter();
 
-contactRouter.addGetRoute(contactController.route, contactController.read);
+contactRouter.addGetRoute(
+  `${contactController.route}/:id`,
+  contactController.read
+);
 contactRouter.addGetRoute(
   `${contactController.route}/:id`,
   contactController.readOne,

@@ -16,6 +16,7 @@ export default function Table() {
     // if (!userId) return navigate('/login');
     if (!userId) return window.alert('Sem contatos');
     const contacts = await getContacts(userId);
+    console.log(contacts);
     if(!contacts) return window.alert('Problema no banco de dados.');
     setContacts(contacts);
   }
@@ -28,9 +29,17 @@ export default function Table() {
     <>
       <TableHead />
       {
-        contacts.map(({ name, phone, email }) =>
-          <TableRow name={ name } phone={ phone } email={ email } />)
+        contacts.map(({ id, name, phone, email, whatsapp }) =>
+          <TableRow
+            key={ id }
+            name={ name }
+            phone={ phone }
+            email={ email }
+            id={ id }
+            whatsapp={ whatsapp }
+          />)
       }
+      {/* <TableRow name={ 'teste' } email={ 'teste@teste.com' } phone={ '12345678977' } /> */}
     </>
   );
 };

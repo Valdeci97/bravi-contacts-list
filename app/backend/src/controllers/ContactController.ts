@@ -40,9 +40,9 @@ export default class ContactController {
     res: Response,
     next: NextFunction
   ): Promise<Response | void> => {
-    const { userId } = req.body;
+    const { id } = req.params;
     try {
-      const contacts = await this.service.list(userId);
+      const contacts = await this.service.list(id);
       return res.status(200).json(contacts);
     } catch (err) {
       if (err instanceof HttpException) {

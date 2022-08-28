@@ -51,7 +51,7 @@ export default function SignUp() {
           <label htmlFor="password">
             <input
               id="password"
-              type="text"
+              type="password"
               name="password"
               className="input"
               placeholder="********"

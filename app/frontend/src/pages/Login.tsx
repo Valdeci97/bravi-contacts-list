@@ -13,10 +13,11 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const validateLogin = async (email: string, password: string) => {
+    const THREE_SECONDS = 3000;
     const user = await login(email, password);
     if (!user) return window.alert('Email ou senha incorretos!');
     createUserKey(user.id);
-    navigate('/contacts');
+    setTimeout(() => navigate('/contacts'), THREE_SECONDS);
   }
   
   return (
@@ -39,7 +40,7 @@ export default function Login() {
           <label htmlFor="password">
             senha:
             <input
-              type="text"
+              type="password"
               name="password"
               id="password"
               className="input"
