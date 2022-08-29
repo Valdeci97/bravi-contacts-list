@@ -4,12 +4,20 @@ WORKDIR /usr/app
 
 COPY package*.json ./
 
-RUN npm install
+COPY prisma ./prisma/
+
+COPY .env ./
+
+COPY tsconfig.json ./
 
 COPY . .
+
+RUN npm install
 
 RUN npx prisma generate
 
 EXPOSE 3001
 
-ENTRYPOINT [ "npm", "start" ]
+RUN npm run build
+
+CMD [ "npm", "start" ]
