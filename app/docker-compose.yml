@@ -12,12 +12,3 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: bravi_contacts
     restart: 'always'
-  backend:
-    container_name: app_backend
-    depends_on:
-      - db
-    build: ./backend
-    ports:
-      - 3001:3001
-    volumes:
-      - ./backend:/usr/app

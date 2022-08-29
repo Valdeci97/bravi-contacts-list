@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "npm run install:apps",
+    "install:apps": "./install_apps.sh",
+    "compose:up": "(cd app && docker-compose up -d --build)",
+    "compose:down": "(cd app && docker-compose down --remove-orphans)",
+    "compose:logs": "(cd app && docker-compose logs)"
   },
   "repository": {
     "type": "git",
