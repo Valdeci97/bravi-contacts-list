@@ -44,3 +44,18 @@ change to project directory:
 Install dependencies
 
 ``` npm install ```
+
+Start your postgres database:
+
+``` npm run compose:up ```
+
+Change to backend directoty set yout config vars using .env.example and use:
+
+```npm start```
+
+change to frontend directory and user:
+
+``ǹpm start```
+
+Now we can use the app.
+Create an user and manage your contact list.
