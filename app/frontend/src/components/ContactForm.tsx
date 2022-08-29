@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { createContact } from '../utils/server';
 import { getUserKey } from '../utils/localStorage';
 import '../styles/contactForm.scss';
@@ -9,6 +10,8 @@ export default function ContactForm() {
   const [phone, setPhone] = useState('');
   const [whatsapp, setWhatsapp] = useState('false');
 
+  const navigate = useNavigate();
+
   const createUserContact = async (
     name: string,
     phone: string,
@@ -17,7 +20,7 @@ export default function ContactForm() {
   ) => {
     const wpp = whatsapp === 'false' ? false : true;
     const userId = getUserKey();
-    if (!userId) return window.alert('Usuário não autenticado!');
+    if (!userId) return navigate('/login');
     const contact = await createContact(name, phone, wpp, email, userId);
     if (!contact) return window.alert('Problema no banco de dados.');
     return window.location.reload();
